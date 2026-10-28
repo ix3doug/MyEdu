@@ -23,6 +23,7 @@ INITIAL_CHEESE: Final[int] = 30  # 1 pack
 INITIAL_MAYO: Final[int] = 64  # 1 half-gallon
 INITIAL_TOOTHPICKS: Final[int] = 100  # 1 pack
 
+
 # Calculate cost per sandwich
 def calculate_sandwich_cost() -> float:
     bread_per_sandwich = BREAD_SLICES * (BREAD_COST / 12)
@@ -30,13 +31,21 @@ def calculate_sandwich_cost() -> float:
     cheese_per_sandwich = CHEESE_SLICES * (CHEESE_COST / 30)
     mayo_per_sandwich = MAYO_TBSP * (MAYO_COST / 16)
     toothpicks_per_sandwich = TOOTHPICS * (TOOTHPICK_COST / 100)
-    
-    return bread_per_sandwich + meat_per_sandwich + cheese_per_sandwich + mayo_per_sandwich + toothpicks_per_sandwich
+
+    return (
+        bread_per_sandwich
+        + meat_per_sandwich
+        + cheese_per_sandwich
+        + mayo_per_sandwich
+        + toothpicks_per_sandwich
+    )
+
 
 # Main calculations
 sandwich_cost = calculate_sandwich_cost()
 three_batches_cost = 3 * 6 * sandwich_cost
 discounted_batch_cost = 6 * sandwich_cost * 0.85
+
 
 # Calculate leftovers after each batch
 def calculate_leftovers(batches: int) -> dict:
@@ -47,14 +56,14 @@ def calculate_leftovers(batches: int) -> dict:
     cheese_used = total_sandwiches * CHEESE_SLICES
     mayo_used = total_sandwiches * MAYO_TBSP
     toothpicks_used = total_sandwiches * TOOTHPICS
-    
+
     # Calculate leftovers
     bread_left = INITIAL_BREAD - bread_used
     meat_left = INITIAL_LUNCHMEAT - meat_used
     cheese_left = INITIAL_CHEESE - cheese_used
     mayo_left = INITIAL_MAYO - mayo_used
     toothpicks_left = INITIAL_TOOTHPICKS - toothpicks_used
-    
+
     return {
         "bread": bread_left,
         "lunchmeat": meat_left,
@@ -62,6 +71,7 @@ def calculate_leftovers(batches: int) -> dict:
         "mayo": mayo_left,
         "toothpicks": toothpicks_left
     }
+
 
 # Function to check if initial quantities are sufficient for the batch
 def check_sufficient_ingredients(batches: int) -> None:
@@ -72,18 +82,34 @@ def check_sufficient_ingredients(batches: int) -> None:
     required_cheese = total_sandwiches * CHEESE_SLICES
     required_mayo = total_sandwiches * MAYO_TBSP
     required_toothpicks = total_sandwiches * TOOTHPICS
-    
+
     # Check each ingredient
     if INITIAL_BREAD < required_bread:
-        print(f"NOTICE: Bread initial quantity ({INITIAL_BREAD}) is not enough for {batches} batches. Multiple packages needed.")
+        print(
+            f"NOTICE: Bread initial quantity ({INITIAL_BREAD}) is not "
+            f"enough for {batches} batches. Multiple packages needed."
+        )
     if INITIAL_LUNCHMEAT < required_meat:
-        print(f"NOTICE: Lunchmeat initial quantity ({INITIAL_LUNCHMEAT}) is not enough for {batches} batches. Multiple packages needed.")
+        print(
+            f"NOTICE: Lunchmeat initial quantity ({INITIAL_LUNCHMEAT}) is not "
+            f"enough for {batches} batches. Multiple packages needed."
+        )
     if INITIAL_CHEESE < required_cheese:
-        print(f"NOTICE: Cheese initial quantity ({INITIAL_CHEESE}) is not enough for {batches} batches. Multiple packages needed.")
+        print(
+            f"NOTICE: Cheese initial quantity ({INITIAL_CHEESE}) is not "
+            f"enough for {batches} batches. Multiple packages needed."
+        )
     if INITIAL_MAYO < required_mayo:
-        print(f"NOTICE: Mayo initial quantity ({INITIAL_MAYO}) is not enough for {batches} batches. Multiple packages needed.")
+        print(
+            f"NOTICE: Mayo initial quantity ({INITIAL_MAYO}) is not "
+            f"enough for {batches} batches. Multiple packages needed."
+        )
     if INITIAL_TOOTHPICKS < required_toothpicks:
-        print(f"NOTICE: Toothpicks initial quantity ({INITIAL_TOOTHPICKS}) is not enough for {batches} batches. Multiple packages needed.")
+        print(
+            f"NOTICE: Toothpicks initial quantity ({INITIAL_TOOTHPICKS}) is "
+            f"not enough for {batches} batches. Multiple packages needed."
+        )
+
 
 # Print ingredient costs
 print("=" * 20)
@@ -93,12 +119,15 @@ print(f"Lunchmeat: ${LUNCHMEAT_COST: .2f} per 20 slices")
 print(f"Cheese: ${CHEESE_COST: .2f} per 30 slices")
 print(f"Mayo: ${MAYO_COST: .2f} per half-gallon (16 tbsp)")
 print(f"Toothpicks: ${TOOTHPICK_COST: .2f} per 100 toothpicks")
-print("=" * 20,end='')
+print("=" * 20, end='')
 
 # Print cost per sandwich
 print("\nCost per Sandwich: ", f"${sandwich_cost: .2f}")
 print("3 batches (18 sandwiches): ", f"${three_batches_cost: .2f}")
-print("1 batch (6 sandwiches) at 15% discount: ", f"${discounted_batch_cost: .2f}")
+print(
+    "1 batch (6 sandwiches) at 15% discount: ",
+    f"${discounted_batch_cost: .2f}"
+)
 
 # Print divider
 print("=" * 20)
