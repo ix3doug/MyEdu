@@ -78,12 +78,6 @@ print("\nCost per Sandwich:", f"${sandwich_cost:.2f}")
 print("3 batches (18 sandwiches):", f"${three_batches_cost:.2f}")
 print("1 batch (6 sandwiches) at 15% discount:", f"${discounted_batch_cost:.2f}")
 
-# Print leftovers after 3 batches
-print("\nLeftover Ingredients after 3 Batches:")
-leftovers = calculate_leftovers(3)
-for item, quantity in leftovers.items():
-    print(f"{item}: {quantity} units left")
-
 # Print leftovers after 1 batch
 print("\nLeftover Ingredients after 1 Batch:")
 leftovers = calculate_leftovers(1)
