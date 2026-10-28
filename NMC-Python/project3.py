@@ -3,9 +3,9 @@ from typing import Final
 
 # Unit prices and quantities
 BREAD_COST: Final[float] = 5.0  # per loaf (12 slices)
-LUNCHMEAT_COST: Final[float] = 8.0  # per 20 slices
+LUNCHMEAT_COST: Final[float] = 16.0  # per 20 slices
 CHEESE_COST: Final[float] = 12.0  # per 30 slices
-MAYO_COST: Final[float] = 15.0  # per half-gallon (16 tbsp)
+MAYO_COST: Final[float] = 15.0  # per quarter-gallon (128 tbsp)
 TOOTHPICK_COST: Final[float] = 1.0  # per 100 toothpicks
 
 # Recipe per sandwich
@@ -20,7 +20,7 @@ TOOTHPICS: Final[int] = 1
 INITIAL_BREAD: Final[int] = 12  # 1 loaf
 INITIAL_LUNCHMEAT: Final[int] = 20  # 1 pack
 INITIAL_CHEESE: Final[int] = 30  # 1 pack
-INITIAL_MAYO: Final[int] = 16  # 1 half-gallon
+INITIAL_MAYO: Final[int] = 64  # 1 half-gallon
 INITIAL_TOOTHPICKS: Final[int] = 100  # 1 pack
 
 # Calculate cost per sandwich
@@ -71,12 +71,15 @@ print(f"Lunchmeat: ${LUNCHMEAT_COST:.2f} per 20 slices")
 print(f"Cheese: ${CHEESE_COST:.2f} per 30 slices")
 print(f"Mayo: ${MAYO_COST:.2f} per half-gallon (16 tbsp)")
 print(f"Toothpicks: ${TOOTHPICK_COST:.2f} per 100 toothpicks")
-print("=" * 20)
+print("=" * 20,end='')
 
 # Print cost per sandwich
 print("\nCost per Sandwich:", f"${sandwich_cost:.2f}")
 print("3 batches (18 sandwiches):", f"${three_batches_cost:.2f}")
 print("1 batch (6 sandwiches) at 15% discount:", f"${discounted_batch_cost:.2f}")
+
+# Print divider
+print("=" * 20,end='')
 
 # Print leftovers after 1 batch
 print("\nLeftover Ingredients after 1 Batch:")
