@@ -1,12 +1,19 @@
-# Statically typed recipe cost calculator
+# Statically typed recipe cost calculator pork
 from typing import Final
 
 # Unit prices and quantities
-BREAD_COST: Final[float] = 5.0  # per loaf (12 slices)
-LUNCHMEAT_COST: Final[float] = 16.0  # per 20 slices
-CHEESE_COST: Final[float] = 12.0  # per 30 slices
-MAYO_COST: Final[float] = 15.0  # per quarter-gallon (128 tbsp)
-TOOTHPICK_COST: Final[float] = 1.0  # per 100 toothpicks
+BREAD_COST: Final[float] = 5.30  # per loaf (12 slices)
+LUNCHMEAT_COST: Final[float] = 16.96  # per 20 slices
+CHEESE_COST: Final[float] = 12.72  # per 30 slices
+MAYO_COST: Final[float] = 15.90  # per quarter-gallon (128 tbsp)
+TOOTHPICK_COST: Final[float] = 1.06  # per 100 toothpicks
+
+# Package sizes (units per package)
+BREAD_PACK_SIZE: Final[int] = 12
+LUNCHMEAT_PACK_SIZE: Final[int] = 20
+CHEESE_PACK_SIZE: Final[int] = 30
+MAYO_PACK_SIZE: Final[int] = 16
+TOOTHPICK_PACK_SIZE: Final[int] = 100
 
 # Recipe per sandwich
 BREAD_SLICES: Final[int] = 2
@@ -42,9 +49,9 @@ def calculate_sandwich_cost() -> float:
 
 
 # Main calculations
-sandwich_cost = calculate_sandwich_cost()
-three_batches_cost = 3 * 6 * sandwich_cost
-discounted_batch_cost = 6 * sandwich_cost * 0.85
+sandwich_cost = round(calculate_sandwich_cost(),2)
+three_batches_cost = round(3 * 6 * sandwich_cost,2)
+discounted_batch_cost = round(6 * sandwich_cost * 0.85,2)
 
 
 # Calculate leftovers after each batch
@@ -57,12 +64,32 @@ def calculate_leftovers(batches: int) -> dict:
     mayo_used = total_sandwiches * MAYO_TBSP
     toothpicks_used = total_sandwiches * TOOTHPICS
 
-    # Calculate leftovers
-    bread_left = INITIAL_BREAD - bread_used
-    meat_left = INITIAL_LUNCHMEAT - meat_used
-    cheese_left = INITIAL_CHEESE - cheese_used
-    mayo_left = INITIAL_MAYO - mayo_used
-    toothpicks_left = INITIAL_TOOTHPICKS - toothpicks_used
+    # Use // (floor division) and % (modulo) to find packages needed.
+    # Floor division gives full packages; modulo checks for a partial package.
+    bread_packs = (bread_used // BREAD_PACK_SIZE) + (
+        1 if bread_used % BREAD_PACK_SIZE else 0
+    )
+    meat_packs = (meat_used // LUNCHMEAT_PACK_SIZE) + (
+        1 if meat_used % LUNCHMEAT_PACK_SIZE else 0
+    )
+    cheese_packs = (cheese_used // CHEESE_PACK_SIZE) + (
+        1 if cheese_used % CHEESE_PACK_SIZE else 0
+    )
+    mayo_packs = (mayo_used // MAYO_PACK_SIZE) + (
+        1 if mayo_used % MAYO_PACK_SIZE else 0
+    )
+    toothpick_packs = (toothpicks_used // TOOTHPICK_PACK_SIZE) + (
+        1 if toothpicks_used % TOOTHPICK_PACK_SIZE else 0
+    )
+
+    # Calculate leftover units after batch using total purchased minus used.
+    # Note: (pack_size - (used % pack_size)) % pack_size also directly
+    # calculates the remainder left in the opened package using modulo (%).
+    bread_left = (bread_packs * BREAD_PACK_SIZE) - bread_used
+    meat_left = (meat_packs * LUNCHMEAT_PACK_SIZE) - meat_used
+    cheese_left = (cheese_packs * CHEESE_PACK_SIZE) - cheese_used
+    mayo_left = (mayo_packs * MAYO_PACK_SIZE) - mayo_used
+    toothpicks_left = (toothpick_packs * TOOTHPICK_PACK_SIZE) - toothpicks_used
 
     return {
         "bread": bread_left,
@@ -110,10 +137,14 @@ def check_sufficient_ingredients(batches: int) -> None:
             f"not enough for {batches} batches. Multiple packages needed."
         )
 
+# Print the recipe
+print("=" * 20)
+print("Recipe: Sandwich")
+
 
 # Print ingredient costs
 print("=" * 20)
-print("Ingredient Costs:")
+print("Recipe Ingredient Costs:")
 print(f"Bread: ${BREAD_COST: .2f} per loaf (12 slices)")
 print(f"Lunchmeat: ${LUNCHMEAT_COST: .2f} per 20 slices")
 print(f"Cheese: ${CHEESE_COST: .2f} per 30 slices")
